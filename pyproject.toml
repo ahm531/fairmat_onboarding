@@ -129,7 +129,7 @@ where = ["src"]
 
 [project.entry-points.'nomad.plugin']
 
-schema_package_entry_point = "fairmat_onboarding.schema_packages:schema_package_entry_point"
+schema_onboarding_entry_point = "fairmat_onboarding.schema_packages:schema_onboarding_entry_point"
 
 app_entry_point = "fairmat_onboarding.apps:app_entry_point"
 

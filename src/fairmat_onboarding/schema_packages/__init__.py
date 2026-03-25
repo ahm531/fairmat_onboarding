@@ -11,7 +11,7 @@ class FAIRmatOnboardingPackageEntryPoint(SchemaPackageEntryPoint):
         return m_package
 
 
-schema_package_entry_point = FAIRmatOnboardingPackageEntryPoint(
+schema_onboarding_entry_point = FAIRmatOnboardingPackageEntryPoint(
     name='FAIRmat_onboarding_questionaire',
     description='This NOMAD schema plugin provides a structured questionnaire designed '
     'to collect key information from newly onboarded FAIRmat Principal Investigators (PIs).',
