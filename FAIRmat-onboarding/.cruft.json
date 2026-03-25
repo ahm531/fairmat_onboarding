@@ -1,0 +1,32 @@
+{
+  "template": "https://github.com/FAIRmat-NFDI/cookiecutter-nomad-plugin",
+  "commit": "0dcee23a249225f398052817c6f2ea52c9ddb307",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "full_name": "Ahmed Mansour",
+      "email": "amansour@physik.hu-berlin.de",
+      "github_username": "ahm531",
+      "plugin_name": "FAIRmat-onboarding",
+      "module_name": "fairmat_onboarding",
+      "short_description": "This NOMAD schema plugin provides a structured questionnaire designed to collect key information from newly onboarded FAIRmat Principal Investigators (PIs). It captures details on the research focus, domain expertise, and research data management practices of the PI’s group.",
+      "version": "0.1.0",
+      "license": "Apache Software License 2.0",
+      "include_schema_package": true,
+      "include_normalizer": false,
+      "include_parser": false,
+      "include_app": true,
+      "include_example_uploads": false,
+      "include_action": false,
+      "include_north_tools": false,
+      "north_tool_name": "my_north_tool",
+      "_copy_without_render": [
+        "*.html",
+        "*.png"
+      ],
+      "_template": "https://github.com/FAIRmat-NFDI/cookiecutter-nomad-plugin",
+      "_commit": "0dcee23a249225f398052817c6f2ea52c9ddb307"
+    }
+  },
+  "directory": null
+}
