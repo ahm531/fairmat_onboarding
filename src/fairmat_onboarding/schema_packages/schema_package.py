@@ -5,9 +5,9 @@ if TYPE_CHECKING:
     from structlog.stdlib import BoundLogger
 
 from nomad.config import config
-from nomad.datamodel.data import ArchiveSection, Schema, UseCaseElnCategory
+from nomad.datamodel.data import ArchiveSection, Schema, UseCaseElnCategory, UserReference
 from nomad.datamodel.metainfo.annotations import ELNAnnotation, ELNComponentEnum
-from nomad.metainfo import MEnum, Quantity, SchemaPackage, Section, SubSection
+from nomad.metainfo import Datetime, MEnum, Quantity, SchemaPackage, Section, SubSection
 
 configuration = config.get_plugin_entry_point(
     'fairmat_onboarding.schema_packages:schema_onboarding_entry_point'
@@ -19,34 +19,208 @@ m_package = SchemaPackage()
 class ResearchFocus(ArchiveSection):
     m_def = Section(label='Research Focus')
 
+    research_type = Quantity(
+    type=MEnum('1- Experimental', '2- Computational', '3- Both'),
+    label='what best describes your research approach?',
+    description='Select the option that best reflects your group’s primary research activities. '
+        'Choose "Both" if your work combines experimental and computational methods.',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.RadioEnumEditQuantity),
+    )
+
+    research_topics = Quantity(
+    type=str,
+    shape=['*'],
+    label='main research topics',
+    description='List the main scientific topics or themes of your research '
+        '(e.g., catalysis, quantum materials, energy storage, photovoltaics). '
+        'Add one topic per line.',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    )
+
+    material_systems = Quantity(
+    type=str,
+    shape=['*'],
+    label='main material systems studied',
+    description='List the material systems your group works on. This can include broad categories '
+    '(e.g., polymers, 2D materials) or specific materials (e.g., MoS2, Si, GaAs). '
+    'Add one material system per line.',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    )
+
+    research_methods = Quantity(
+    type=str,
+    shape=['*'],
+    label='main methods and techniques used',
+    description='List the main experimental, computational, or analytical techniques used in your research '
+    '(e.g., DFT, molecular dynamics, XRD, spectroscopy, microscopy). '
+    'Add one technique per line.',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    )
+
     focus_description = Quantity(
         type=str,
-        label='Brief description of the research focus of your group',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
-    )
-
-    main_topics = Quantity(
-        type=str,
-        shape=['*'],
-        label='Main research topics',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
-    )
-
-    research_type = Quantity(
-        type=MEnum('Experimental', 'Computational', 'Both'),
-        label='What best describes your research approach?',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.RadioEnumEditQuantity),
-    )
-
-    key_materials_methods = Quantity(
-        type=str,
-        label='Key materials systems / methods studied',
+        label='brief description of the research focus of your group',
+        description='Describe your group’s research, including the main scientific problems or challenges '
+        'you aim to address, and the general approach you take.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
     )
 
     fairmat_connection = Quantity(
         type=str,
-        label='How does your research connect to FAIRmat\'s scientific scope?',
+        label='how does your research connect to FAIRmat\'s scientific scope?',
+        description='Describe how your research aligns with FAIRmat, for example in terms of '
+        'materials domains, data types, methods, or potential use of NOMAD.',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
+    )
+
+class ResearchData(ArchiveSection):
+    m_def = Section(label='Research Data')
+
+    name = Quantity(
+    type=str,
+    label='name of data entry',
+    description='Provide a short descriptive name for this data entry to distinguish it from others '
+    '(e.g., "DFT simulations of catalysts", "XRD characterization", "Device I–V measurements").',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+)
+    
+    data_type = Quantity(
+    type=MEnum(
+        '1- DFT calculations',
+        '2- Molecular dynamics simulations',
+        '3- Spectroscopy data',
+        '4- Microscopy data',
+        '5- Device measurements',
+        'Other',
+    ),
+    label='data type',
+    description="Select the type of data that best describes this entry. If your data doesn't fit into any of the predefined categories, select 'Other' and provide a brief description in the next field.",
+    a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+    )
+
+    data_type_other = Quantity(
+    type=str,
+    label='other data type (please specify)',
+    description='If you selected "Other", please specify the data type.',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    )
+
+    volume = Quantity(
+        type=str,
+        label='approximate data volume per year',
+        description='Provide an estimate of the data volume generated per year for this type of data (e.g., "100 GB/year", "1 TB/year").',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    )
+
+    software_instruments = Quantity(
+        type=str,
+        shape=['*'],
+        label='software or instruments used',
+        description='List the software or instruments used to generate, process, or analyze this data. '
+        'This may include simulation codes, analysis software, specific ELN, or experimental instruments. '
+        'For instruments, please include vendor and model if known (e.g., "Bruker D8 Advance"). '
+        'Add one item per entry.',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    )
+
+    file_format = Quantity(
+        type=str,
+        shape=['*'],
+        label='file formats',
+        description='List the file formats used for this data type (e.g., CSV, HDF5, TIFF, TXT, XYZ). '
+        'Use common format names or file extensions. Add one format per entry.',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    )
+
+
+class NomadUsage(ArchiveSection):
+    m_def = Section(label='NOMAD Usage')
+
+    using_nomad = Quantity(
+        type=MEnum('Yes', 'No', 'Planning to'),
+        label='are you currently using NOMAD?',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.RadioEnumEditQuantity),
+    )
+
+    nomad_services = Quantity(
+        type=MEnum(
+            '1- Central NOMAD',
+            '2- NOMAD Oasis',
+            '3- NOMAD CAMELS',
+            '4- NORTH',
+            '5- AI toolkit',
+        ),
+        shape=['*'],
+        label='NOMAD services currently used by your group',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+    )
+
+    nomad_plugins_developed = Quantity(
+        type=MEnum(
+            '1- APIs',
+            '2- Apps',
+            '3- Example uploads',
+            '4- Normalizers',
+            '5- NORTH tools',
+            '6- Parsers',
+            '7- Schema packages',
+            '8- Actions',
+        ),
+        shape=['*'],
+        label='NOMAD plugins developed in your group',
+        description='If your group has developed a NOMAD plugin, select the component types you have implemented. '
+        'Leave this field empty if not applicable.',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+    )
+
+    nomad_plugin_details = Quantity(
+        type=str,
+        label='NOMAD plugin details (optional)',
+        description=(
+            'If applicable, briefly describe the NOMAD plugin your group has developed '
+            '(e.g., purpose, functionality). You may also include a link to the repository '
+            'or documentation (e.g., GitHub URL).'
+        ),
+        a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
+    )
+
+    training_topics = Quantity(
+        type=MEnum(
+            '1- Getting started with NOMAD',
+            '2- Data management planning',
+            '3- Metadata and data standards',
+            '4- Plugin development',
+            '5- ELN usage',
+            '6- Hosting and administration of NOMAD Oasis',
+            '7- other',
+        ),
+        shape=['*'],
+        label='which training topics are relevant for your group\'s current or upcoming needs?',
+        description='Select the training topics that are relevant to your group\'s current or upcoming needs. '
+        'Choose "Other" if not listed.',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+    )
+
+    training_topics_other = Quantity(
+        type=str,
+        label='other training topic (please specify)',
+        description='If you selected "Other", please specify the training topic.',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    )
+
+    nomad_challenges = Quantity(
+        type=str,
+        label='What are the main challenges preventing deeper use of NOMAD today?',
+        description='Describe the main challenges that currently limit or prevent broader use of NOMAD in your group. '
+        'This may include technical, organizational, training, or workflow-related challenges.',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
+    )
+
+    nomad_workflows = Quantity(
+        type=str,
+        label='what workflows would you like to integrate with NOMAD?',
+        description='Describe the research workflows, processes, or data handling steps that you would like to integrate '
+        'with NOMAD.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
     )
 
@@ -54,128 +228,99 @@ class ResearchFocus(ArchiveSection):
 class ResearchDataManagement(ArchiveSection):
     m_def = Section(label='Research Data Management')
 
-    # --- Section 3: Research Data Landscape ---
-
-    data_types = Quantity(
-        type=MEnum(
-            'DFT calculations',
-            'Molecular dynamics simulations',
-            'Spectroscopy data',
-            'Microscopy data',
-            'Device measurements',
-            'Other',
-        ),
-        shape=['*'],
-        label='What types of data does your group primarily generate?',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
-    )
-
-    data_volume_per_year = Quantity(
-        type=str,
-        label='Approximate data volume generated per year',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
-    )
-
-    typical_data_formats = Quantity(
-        type=str,
-        shape=['*'],
-        label='Typical data formats',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
-    )
-
-    workflow_stages = Quantity(
-        type=str,
-        label='Typical workflow stages where data is generated',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
-    )
-
-    # --- Section 4: Current RDM Practices ---
-
     data_storage = Quantity(
-        type=MEnum(
-            'Local servers',
-            'HPC storage',
-            'Cloud',
-            'External repositories',
-            'Other',
-        ),
-        shape=['*'],
-        label='How is research data currently stored?',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+    type=MEnum(
+        '1- Local servers',
+        '2- HPC storage',
+        '3- Cloud',
+        '4- External repositories',
+        '5- Other',
+    ),
+    shape=['*'],
+    label='how is research data currently stored?',
+    description='Select all options that apply to your group’s current data storage practices. '
+    'For "Other", please specify the storage solution in the next field.',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+    )
+
+    data_storage_other = Quantity(
+    type=str,
+    label='other storage solution (please specify)',
+    description='If you selected "Other", please specify the storage solution used '
+    '(e.g., custom infrastructure, partner systems).',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
     metadata_documentation = Quantity(
-        type=MEnum(
-            'Lab notebooks',
-            'Electronic lab notebooks',
-            'Scripts / workflow managers',
-            'Spreadsheets',
-            'Databases',
-            'Other',
-        ),
-        shape=['*'],
-        label='How is experimental or computational metadata documented?',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+    type=MEnum(
+        '1- Lab notebooks',
+        '2- Electronic lab notebooks',
+        '3- Scripts / workflow managers',
+        '4- Spreadsheets',
+        '5- Catalogues',
+        '6- Other',
+    ),
+    shape=['*'],
+    label='how is metadata documented?',
+    description='Select all options that apply to how your group documents metadata and experimental/computational details. ',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
     )
+
+    metadata_documentation_other = Quantity(
+    type=str,
+    label='other metadata documentation method (please specify)',
+    description='If you selected "Other", please specify how metadata is documented '
+    '(e.g., custom databases, LIMS, internal tools).',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+)
 
     existing_standards = Quantity(
         type=str,
-        label='Are there existing standards or metadata schemas used in your group?',
+        label='are there existing standards or schemas used in your group?',
+        description='List any standards, ontologies, or metadata schemas used in your group '
+        '(e.g., NeXus, CIF, JSON schemas, domain-specific standards). '
+        'Provide names and brief details if relevant.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
     )
 
-    rdm_responsible = Quantity(
-        type=str,
-        label='Who in the group is responsible for data management or infrastructure?',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
-    )
+    research_data = SubSection(section_def=ResearchData, repeats=True)
 
-    # --- Section 5: NOMAD and FAIRmat Usage ---
 
-    using_nomad = Quantity(
-        type=MEnum('Yes', 'No', 'Planning to'),
-        label='Are you currently using NOMAD?',
+class OnboardingAdministration(ArchiveSection):
+    m_def = Section(label='Onboarding administration (for onboarding team use)')
+
+    interview_status = Quantity(
+        type=MEnum('1- In planning', '2- Scheduled', '3- Completed'),
+        label='interview status',
         a_eln=ELNAnnotation(component=ELNComponentEnum.RadioEnumEditQuantity),
     )
 
-    nomad_services = Quantity(
-        type=MEnum(
-            'Central NOMAD',
-            'NOMAD Oasis',
-            'NOMAD Apps',
-            'NOMAD plugins',
-            'NOMAD CAMELS',
-            'Other',
-        ),
-        shape=['*'],
-        label='Which NOMAD services are currently used?',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+    interview_date = Quantity(
+        type=Datetime,
+        label='interview date',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.DateTimeEditQuantity),
     )
 
-    training_topics = Quantity(
-        type=MEnum(
-            'Getting started with NOMAD',
-            'Data management planning',
-            'Metadata and data standards',
-            'Plugin development',
-            'ELN usage',
-            'Hosting and administration of NOMAD Oasis',
-        ),
+    interviewers = Quantity(
+        type=UserReference,
         shape=['*'],
-        label='Which training topics are relevant for your group\'s current or upcoming needs?',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+        label='interviewers',
+        description='Select the NOMAD users who conducted or will conduct the interview.',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.AuthorEditQuantity),
     )
 
-    nomad_challenges = Quantity(
+    remarks = Quantity(
         type=str,
-        label='What are the main challenges preventing deeper use of NOMAD today?',
+        label='remarks',
+        description='Internal notes for the onboarding team.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
     )
 
-    nomad_workflows = Quantity(
+    letter_of_commitment = Quantity(
         type=str,
-        label='What workflows would you like to integrate with NOMAD?',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
+        label='Letter of Commitment (LoC)',
+        description='Upload the signed Letter of Commitment.',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.FileEditQuantity),
     )
 
 
@@ -187,29 +332,30 @@ class PIOnboardingQuestionnaire(Schema):
 
     pi_name = Quantity(
         type=str,
-        label='PI Full Name',
-        description='Full name of the Principal Investigator.',
+        label='full name',
+        description='Full name (first name and last name) of the PI.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
     institutions = Quantity(
         type=str,
         shape=['*'],
-        label='Institution(s)',
+        label='institution(s)',
         description='Institution(s) the PI is affiliated with.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
     research_group = Quantity(
         type=str,
-        label='Research Group / Department',
+        label='research group name or department',
         description='Name of the research group or department.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
     research_group_webpage = Quantity(
         type=str,
-        label='Webpage of the Research Group / Department',
+        label='webpage',
+        default='https://www.example.com',
         description='URL of the research group or department webpage.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.URLEditQuantity),
     )
@@ -233,15 +379,24 @@ class PIOnboardingQuestionnaire(Schema):
 
     RDM_contact_person = Quantity(
         type=str,
-        label='Main Contact Person for Data Management in your group (if different)',
-        description='Name of the main contact person for data management, if different from the PI.',
+        label='main contact person for data management / NOMAD administration',
+        description='Name of the person responsible for research data management'
+        'in your group. This may be a data steward, lab manager, or another group member who can serve as the main contact for feedback and support related to data management and NOMAD usage.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
+    RDM_contact_role = Quantity(
+        type=str,
+        label='role of contact person',
+        description='Role or position of the contact person within the group '
+        '(e.g., data steward, postdoc, PhD student, lab manager).',
+        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    )
     RDM_contact_email = Quantity(
         type=str,
-        label='Email of Contact Person',
-        description='Email address of the main contact person for data management.',
+        label='email of contact person',
+        description='Email address of the contact person responsible for research data management '
+        'or NOMAD administration.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
@@ -253,8 +408,21 @@ class PIOnboardingQuestionnaire(Schema):
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
+    expectations_from_fairmat = Quantity(
+    type=str,
+    label='what do you expect to gain from FAIRmat?',
+    description=(
+        'Please describe your expectations from FAIRmat. This may include support with '
+        'research data management, tools for data handling and analysis, training needs, '
+        'collaboration opportunities, or integration with your existing workflows.'
+    ),
+    a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
+)
+
     research_focus = SubSection(section_def=ResearchFocus)
     research_data_management = SubSection(section_def=ResearchDataManagement)
+    NOMAD_usage = SubSection(section_def=NomadUsage)
+    onboarding_administration = SubSection(section_def=OnboardingAdministration)
 
     def normalize(self, archive: 'EntryArchive', logger: 'BoundLogger') -> None:
         super().normalize(archive, logger)
