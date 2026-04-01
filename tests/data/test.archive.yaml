@@ -14,40 +14,43 @@ data:
   related_projects:
     - CRC 1404 - FONDA
     - EU Project OpenModel
+  expectations_from_fairmat: We expect support with data management and NOMAD integration.
   research_focus:
-    focus_description: We develop and apply first-principles methods for functional materials.
-    main_topics:
+    research_type: 2- Computational
+    research_topics:
       - Electronic structure
       - Phonon calculations
-      - High-throughput screening
-    research_type: Computational
-    key_materials_methods: Perovskite oxides studied via DFT and DFPT using VASP and Quantum ESPRESSO.
+    material_systems:
+      - Perovskite oxides
+    research_methods:
+      - DFT
+      - DFPT
+    focus_description: We develop and apply first-principles methods for functional materials.
     fairmat_connection: Our data feeds directly into NOMAD and aligns with Area C and D goals.
   research_data_management:
-    data_types:
-      - DFT calculations
-      - Molecular dynamics simulations
-    data_volume_per_year: ~5 TB
-    typical_data_formats:
-      - HDF5
-      - JSON
-      - VASP OUTCAR
-    workflow_stages: Data is generated during DFT relaxation, single-point, and phonon calculation steps.
     data_storage:
-      - HPC storage
-      - External repositories
+      - 2- HPC storage
+      - 4- External repositories
     metadata_documentation:
-      - Scripts / workflow managers
-      - Electronic lab notebooks
+      - 3- Scripts / workflow managers
+      - 2- Electronic lab notebooks
     existing_standards: We use the NOMAD metainfo schema and NeXus for experimental cross-validation.
-    rdm_responsible: John Smith (postdoc)
+    research_data:
+      - name: DFT calculations dataset
+        data_type: 1- DFT calculations
+        volume: 5 TB/year
+        software_instruments:
+          - VASP
+          - Quantum ESPRESSO
+        file_format:
+          - HDF5
+          - VASP OUTCAR
+  NOMAD_usage:
     using_nomad: 'Yes'
     nomad_services:
-      - Central NOMAD
-      - NOMAD plugins
+      - 1- Central NOMAD
     training_topics:
-      - Plugin development
-      - Metadata and data standards
+      - 4- Plugin development
+      - 3- Metadata and data standards
     nomad_challenges: Lack of parsers for some in-house code outputs.
     nomad_workflows: Automated upload of VASP calculations from HPC after job completion.
-

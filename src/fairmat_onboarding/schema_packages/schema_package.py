@@ -5,7 +5,12 @@ if TYPE_CHECKING:
     from structlog.stdlib import BoundLogger
 
 from nomad.config import config
-from nomad.datamodel.data import ArchiveSection, Schema, UseCaseElnCategory, UserReference
+from nomad.datamodel.data import (
+    ArchiveSection,
+    Schema,
+    UseCaseElnCategory,
+    UserReference,
+)
 from nomad.datamodel.metainfo.annotations import ELNAnnotation, ELNComponentEnum
 from nomad.metainfo import Datetime, MEnum, Quantity, SchemaPackage, Section, SubSection
 
