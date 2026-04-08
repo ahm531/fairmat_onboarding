@@ -20,6 +20,9 @@ configuration = config.get_plugin_entry_point(
 
 m_package = SchemaPackage()
 
+# Review group ID for FAIRmat PI Onboarding questionnaires
+REVIEWER_GROUP_ID = 'fairmat-pi-onboarding-reviewers' # TODO replace with actual group ID once created
+
 
 def _unique_clean(values: Iterable[str] | None) -> list[str]:
     out: list[str] = []
@@ -150,7 +153,7 @@ class ResearchData(ArchiveSection):
     '(e.g., "DFT simulations of catalysts", "XRD characterization", "Device I–V measurements").',
     a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
 )
-    
+
     data_type = Quantity(
     type=MEnum(
         '1- DFT calculations',
@@ -559,6 +562,10 @@ class PIOnboardingQuestionnaire(Schema):
         self.related_project_terms = [
             RelatedProjectTerm(value=v) for v in _unique_clean(self.related_projects)
         ]
+
+        # Add the reviewer group if not already present
+        if REVIEWER_GROUP_ID not in archive.metadata.reviewer_groups:
+            archive.metadata.reviewer_groups.append(REVIEWER_GROUP_ID)
 
 
 m_package.__init_metainfo__()
