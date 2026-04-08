@@ -21,9 +21,7 @@ configuration = config.get_plugin_entry_point(
 m_package = SchemaPackage()
 
 # Review group ID for FAIRmat PI Onboarding questionnaires
-REVIEWER_GROUP_ID = (
-    'fairmat-pi-onboarding-reviewers'  # TODO replace with actual group ID once created
-)
+REVIEWER_GROUP_ID = 'fairmat-pi-onboarding-reviewers' # TODO replace with actual group ID once created
 
 
 def _unique_clean(values: Iterable[str] | None) -> list[str]:
@@ -67,41 +65,41 @@ class ResearchFocus(ArchiveSection):
     )
 
     research_type = Quantity(
-        type=MEnum('1- Experimental', '2- Computational', '3- Both'),
-        label='what best describes your research approach?',
-        description='Select the option that best reflects your group’s primary research activities. '
+    type=MEnum('1- Experimental', '2- Computational', '3- Both'),
+    label='what best describes your research approach?',
+    description='Select the option that best reflects your group’s primary research activities. '
         'Choose "Both" if your work combines experimental and computational methods.',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.RadioEnumEditQuantity),
+    a_eln=ELNAnnotation(component=ELNComponentEnum.RadioEnumEditQuantity),
     )
 
     research_topics = Quantity(
-        type=str,
-        shape=['*'],
-        label='main research topics',
-        description='List the main scientific topics or themes of your research '
+    type=str,
+    shape=['*'],
+    label='main research topics',
+    description='List the main scientific topics or themes of your research '
         '(e.g., catalysis, quantum materials, energy storage, photovoltaics). '
         'Add one topic per line.',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
     material_systems = Quantity(
-        type=str,
-        shape=['*'],
-        label='main material systems studied',
-        description='List the material systems your group works on. This can include broad categories '
-        '(e.g., polymers, 2D materials) or specific materials (e.g., MoS2, Si, GaAs). '
-        'Add one material system per line.',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    type=str,
+    shape=['*'],
+    label='main material systems studied',
+    description='List the material systems your group works on. This can include broad categories '
+    '(e.g., polymers, 2D materials) or specific materials (e.g., MoS2, Si, GaAs). '
+    'Add one material system per line.',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
     research_methods = Quantity(
-        type=str,
-        shape=['*'],
-        label='main methods and techniques used',
-        description='List the main experimental, computational, or analytical techniques used in your research '
-        '(e.g., DFT, molecular dynamics, XRD, spectroscopy, microscopy). '
-        'Add one technique per line.',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    type=str,
+    shape=['*'],
+    label='main methods and techniques used',
+    description='List the main experimental, computational, or analytical techniques used in your research '
+    '(e.g., DFT, molecular dynamics, XRD, spectroscopy, microscopy). '
+    'Add one technique per line.',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
     focus_description = Quantity(
@@ -114,7 +112,7 @@ class ResearchFocus(ArchiveSection):
 
     fairmat_connection = Quantity(
         type=str,
-        label="how does your research connect to FAIRmat's scientific scope?",
+        label='how does your research connect to FAIRmat\'s scientific scope?',
         description='Describe how your research aligns with FAIRmat, for example in terms of '
         'materials domains, data types, methods, or potential use of NOMAD.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
@@ -149,32 +147,32 @@ class ResearchData(ArchiveSection):
     )
 
     name = Quantity(
-        type=str,
-        label='name of data entry',
-        description='Provide a short descriptive name for this data entry to distinguish it from others '
-        '(e.g., "DFT simulations of catalysts", "XRD characterization", "Device I–V measurements").',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
-    )
+    type=str,
+    label='name of data entry',
+    description='Provide a short descriptive name for this data entry to distinguish it from others '
+    '(e.g., "DFT simulations of catalysts", "XRD characterization", "Device I–V measurements").',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+)
 
     data_type = Quantity(
-        type=MEnum(
-            '1- DFT calculations',
-            '2- Molecular dynamics simulations',
-            '3- Spectroscopy data',
-            '4- Microscopy data',
-            '5- Device measurements',
-            'Other',
-        ),
-        label='data type',
-        description="Select the type of data that best describes this entry. If your data doesn't fit into any of the predefined categories, select 'Other' and provide a brief description in the next field.",
-        a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+    type=MEnum(
+        '1- DFT calculations',
+        '2- Molecular dynamics simulations',
+        '3- Spectroscopy data',
+        '4- Microscopy data',
+        '5- Device measurements',
+        'Other',
+    ),
+    label='data type',
+    description="Select the type of data that best describes this entry. If your data doesn't fit into any of the predefined categories, select 'Other' and provide a brief description in the next field.",
+    a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
     )
 
     data_type_other = Quantity(
-        type=str,
-        label='other data type (please specify)',
-        description='If you selected "Other", please specify the data type.',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    type=str,
+    label='other data type (please specify)',
+    description='If you selected "Other", please specify the data type.',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
     volume = Quantity(
@@ -288,8 +286,8 @@ class NomadUsage(ArchiveSection):
             '7- Other',
         ),
         shape=['*'],
-        label="which training topics are relevant for your group's current or upcoming needs?",
-        description="Select the training topics that are relevant to your group's current or upcoming needs. "
+        label='which training topics are relevant for your group\'s current or upcoming needs?',
+        description='Select the training topics that are relevant to your group\'s current or upcoming needs. '
         'Choose "Other" if not listed.',
         a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
     )
@@ -334,50 +332,50 @@ class ResearchDataManagement(ArchiveSection):
     m_def = Section(label='Research Data Management')
 
     data_storage = Quantity(
-        type=MEnum(
-            '1- Local servers',
-            '2- HPC storage',
-            '3- Cloud',
-            '4- External repositories',
-            '5- Other',
-        ),
-        shape=['*'],
-        label='how is research data currently stored?',
-        description='Select all options that apply to your group’s current data storage practices. '
-        'For "Other", please specify the storage solution in the next field.',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+    type=MEnum(
+        '1- Local servers',
+        '2- HPC storage',
+        '3- Cloud',
+        '4- External repositories',
+        '5- Other',
+    ),
+    shape=['*'],
+    label='how is research data currently stored?',
+    description='Select all options that apply to your group’s current data storage practices. '
+    'For "Other", please specify the storage solution in the next field.',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
     )
 
     data_storage_other = Quantity(
-        type=str,
-        label='other storage solution (please specify)',
-        description='If you selected "Other", please specify the storage solution used '
-        '(e.g., custom infrastructure, partner systems).',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    type=str,
+    label='other storage solution (please specify)',
+    description='If you selected "Other", please specify the storage solution used '
+    '(e.g., custom infrastructure, partner systems).',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
     )
 
     metadata_documentation = Quantity(
-        type=MEnum(
-            '1- Lab notebooks',
-            '2- Electronic lab notebooks',
-            '3- Scripts / workflow managers',
-            '4- Spreadsheets',
-            '5- Catalogues',
-            '6- Other',
-        ),
-        shape=['*'],
-        label='how is metadata documented?',
-        description='Select all options that apply to how your group documents metadata and experimental/computational details. ',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
+    type=MEnum(
+        '1- Lab notebooks',
+        '2- Electronic lab notebooks',
+        '3- Scripts / workflow managers',
+        '4- Spreadsheets',
+        '5- Catalogues',
+        '6- Other',
+    ),
+    shape=['*'],
+    label='how is metadata documented?',
+    description='Select all options that apply to how your group documents metadata and experimental/computational details. ',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
     )
 
     metadata_documentation_other = Quantity(
-        type=str,
-        label='other metadata documentation method (please specify)',
-        description='If you selected "Other", please specify how metadata is documented '
-        '(e.g., custom databases, LIMS, internal tools).',
-        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
-    )
+    type=str,
+    label='other metadata documentation method (please specify)',
+    description='If you selected "Other", please specify how metadata is documented '
+    '(e.g., custom databases, LIMS, internal tools).',
+    a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+)
 
     existing_standards = Quantity(
         type=str,
@@ -535,15 +533,15 @@ class PIOnboardingQuestionnaire(Schema):
     )
 
     expectations_from_fairmat = Quantity(
-        type=str,
-        label='what do you expect to gain from FAIRmat?',
-        description=(
-            'Please describe your expectations from FAIRmat. This may include support with '
-            'research data management, tools for data handling and analysis, training needs, '
-            'collaboration opportunities, or integration with your existing workflows.'
-        ),
-        a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
-    )
+    type=str,
+    label='what do you expect to gain from FAIRmat?',
+    description=(
+        'Please describe your expectations from FAIRmat. This may include support with '
+        'research data management, tools for data handling and analysis, training needs, '
+        'collaboration opportunities, or integration with your existing workflows.'
+    ),
+    a_eln=ELNAnnotation(component=ELNComponentEnum.RichTextEditQuantity),
+)
 
     research_focus = SubSection(section_def=ResearchFocus)
     research_data_management = SubSection(section_def=ResearchDataManagement)
@@ -566,8 +564,10 @@ class PIOnboardingQuestionnaire(Schema):
         ]
 
         # Add the reviewer group if not already present
-        if REVIEWER_GROUP_ID not in archive.metadata.reviewer_groups:
-            archive.metadata.reviewer_groups.append(REVIEWER_GROUP_ID)
+        reviewer_groups = list(archive.metadata.reviewer_groups or [])
+        if REVIEWER_GROUP_ID not in reviewer_groups:
+            reviewer_groups.append(REVIEWER_GROUP_ID)
+            archive.metadata.reviewer_groups = reviewer_groups
 
 
 m_package.__init_metainfo__()
