@@ -1,0 +1,5 @@
+mkdocs
+mkdocs-material>=9.5
+pymdown-extensions
+mkdocs-click
+mkdocs-glightbox
