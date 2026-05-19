@@ -138,3 +138,8 @@ app_entry_point = "fairmat_onboarding.apps:app_entry_point"
 [tool.cruft]
 # Avoid updating workflow files, this leads to permissions issues
 skip = [".github/*"]
+
+[dependency-groups]
+dev = [
+    "mkdocs-glightbox>=0.5.2",
+]
