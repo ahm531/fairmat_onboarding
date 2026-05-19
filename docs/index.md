@@ -43,10 +43,10 @@ Your input enables FAIRmat to:
 
 ## What to expect
 
-- The form takes approximately **15–30 minutes** to complete
-- You can provide **approximate or qualitative answers** where appropriate
-- Free-text fields are available for additional context
-- You may consult members of your group if needed
+- the form takes approximately **15–30 minutes** to complete
+- you can provide **approximate or qualitative answers** where appropriate
+- free-text fields are available for additional context
+- you may consult members of your group if needed
 
 </div>
 
@@ -54,12 +54,15 @@ Your input enables FAIRmat to:
 
 ## Need support?
 
-If you have questions or would like to discuss specific aspects of the form:
+If you have questions about the form or onboarding process:
 
-- contact the FAIRmat onboarding team
-- or raise your questions during your onboarding meeting
+- contact the [FAIRmat onboarding team](mailto:joseph.rudzinski@physik.hu-berlin.de;amansour@physik.hu-berlin.de?subject=Question%20on%20FAIRmat%20onboarding%20process)
+- or ask during your onboarding meeting
 
-We are happy to support you throughout the process.
+If you face issues accessing the FAIRmat Outreach Oasis:
+
+- contact the [FAIRmat team](mailto:fairmat@physik.hu-berlin.de?subject=Issue%20accessing%20the%20FAIRmat%20Outreach%20Oasis)
+
 
 </div>
 </div>

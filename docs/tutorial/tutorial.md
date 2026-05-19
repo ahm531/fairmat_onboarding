@@ -134,4 +134,4 @@ Available subsections appear at the bottom of the form. To create a subsection u
 ---
 
 
-For a detailed description of the form fields and sections, as well as , see [Reference > FAIRmat PI onboarding form](<path-to-reference-page>).
+For a detailed description of the form fields and sections, as well as , see [Reference > FAIRmat PI onboarding form](../reference/references.md).
